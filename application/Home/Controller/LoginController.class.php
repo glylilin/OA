@@ -4,7 +4,6 @@ use Think\Controller;
 class LoginController extends Controller {
    public function login(){
 		$AdminModel = M("Admin"); 
-
 		if($_POST){
 				extract($_POST);
 				$username = $username ? addslashes(trim($username)) : "" ;
