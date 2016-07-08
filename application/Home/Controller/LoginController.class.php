@@ -14,7 +14,7 @@ class LoginController extends Controller {
 				}
 
 				if($username == C('developer') && $password == C("developerpwd")){
-					$_SESSION['OA']['adminname']=C('developer');
+					$_SESSION['OA']['adminame']=C('developer');
 					$_SESSION['OA']['nickname']="开发者";
 					$_SESSION['OA']['auth']="all";
 					$this->success('登录成功', U('Index/index'));;
