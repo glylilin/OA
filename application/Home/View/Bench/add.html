@@ -1,0 +1,173 @@
+<include file="Public/header"/>
+<script type="text/javascript" src="__JS__/wdatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="__JS__/upload/plupload.full.min.js"></script>
+<style>
+.input{display: block;width: 100%;margin-top: 0px 10px;}
+.addportrait{cursor:pointer;diaplay:block;line-hegiht:20px;padding:4px 10px;background:#1fbba6;position:absolute;right:80px;top:140px;color:#fff;border-radius:4px;}
+.portrait{float: left;height: 300px;margin-right: 10px;width: 200px;position: relative;}
+.portrait img{height: 300px;width: 200px;}
+.imgclose{position: absolute;top: 1px;right: 1px;background: black;color: #fff;height: 20px;line-height: 20px;width: 20px;text-align: center;font-size: 14px;cursor: pointer;}
+#proce{position:fixed;top:30%;left:25%;z-index:100;border-radius:6px;background:#fff;display:none;}
+#proce span{display:block;height:20px;width:600px;border:1px solid green;border-radius:6px;}
+#proce p{height:22px;background:green;border-radius:6px;width:0px;}
+</style>
+<div id="Popup">
+<div style="width:60%;margin:0px auto;">
+<!-- SubPopup -->
+<div id="SubPopup">
+<div class="form_boxC">
+<p>"<span class="f_cB">*</span>"号为必填项目</p>
+<form method='post' id='subForm'>
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<th width="100">客户姓名</th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[username]" type="text" class="input" size="5" value=""></div></td>
+<th>微信名 </th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[weiname]" type="text" size="5" class="input" value=""></div></td>
+<th>微信号 </th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[weino]" type="text" size="5" class="input" value=""></div></td>
+</tr>
+
+<tr>
+<th>电话号码 <span class="f_cB">*</span></th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[phonenum]" id="phonenum" type="text" size="5" class="input" value=""></div></td>
+<th>销售总额<span class="f_cB">*</span></th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[saleprice]" id="salephone" type="text" size="5" class="input" value=""></div></td>
+<th>收入<span class="f_cB">*</span></th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[income]" id="income" type="text" size="5" class="input" value=""></div></td>
+</tr>
+
+<tr>
+<th>提成<span class="f_cB">*</span></th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[commission]" id="commission" type="text" size="5" class="input" value=""></div></td>
+<th>类型<span class="f_cB">*</span></th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[ctype]" id="ctype" type="text" size="5" class="input" value=""></div></td>
+<th>线下时间</th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[linetime]" type="text" size="5" class="input Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value=""></div></td>
+</tr>
+
+<tr>
+<th>欠款</th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[arrears]" type="text" size="5" class="input" value=""></div></td>
+<th>备注</th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[remarks]" type="text" size="5" class="input" value=""></div></td>
+<th>指导老师</th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[zteacher]" type="text" size="5" class="input" value=""></div></td>
+</tr>
+
+<tr>
+<th>经手微信<span class="f_cB">*</span></th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[dealno]" id='dealno' type="text" size="5" class="input" value=""></div></td>
+<th>渠道</th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[channels]" type="text" size="5" class="input" value=""></div></td>
+<th>是否为学员</th>
+<td><div class="floatL" style="width:205px;background:#fff;height:38px; border: medium none;font-size: 16px;line-height:38px;"><input name="info[is_student]" type="radio" value="1">是</input><input name="info[is_student]" type="radio" size="5"value="0" checked="checked">否</input></div></td>
+</tr>
+
+<tr>
+
+<th>是否要书</th>
+<td><div class="floatL" style="width:205px;background:#fff;height:38px; border: medium none;font-size: 16px;line-height:38px;"><input name="info[is_book]" type="radio" value="1" checked="checked">是</input><input name="info[is_book]" type="radio" size="5"value="0" >否</input></div></td>
+<th>是否补余款</th>
+<td><div class="floatL" style="width:205px;background:#fff;height:38px; border: medium none;font-size: 16px;line-height:38px;"><input name="info[is_balance]" type="radio" value="1">是</input><input name="info[is_balance]" type="radio" size="5"value="0"  checked="checked">否</input></div></td>
+<th>支付方式<span class="f_cB">*</span></th>
+<td><div class="txtbox floatL" style="width:200px;"><input name="info[paymethod]" id="paymethod" type="text" size="5" class="input" value=""></div></td>
+</tr>
+
+
+<tr>
+
+<th >图片备注2</th>
+<td colspan='5'><div class="floatL" style="width:96%;background:#fff;height:300px; border: medium none;position:relative;" id="remaimgs">
+
+
+<span class="addportrait" id="addportrait">添加备注</span>
+
+</div></td>
+
+</tr>
+</table>
+</form>
+</div>
+</div>
+<div id="BtmBtn">
+<div class="btn_boxB floatR mag_l20"><input name="" type="button" value="取消" id="resetSub" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"></div>
+<div class="btn_box floatR"><input name="" type="button" value="提交" id="subBtn" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"></div>
+</div>
+</div>
+</div>
+<div id="proce">
+	<p><span></span></p>
+</div>
+<script type="text/javascript" src="__JS__/popwin.js"></script>
+<script type="text/javascript">
+$("#resetSub").click(function(){
+	$('.input').val("");
+});
+$('#subBtn').click(function(){
+	var phonenum = $('#phonenum').val();
+	var salephone = $('#salephone').val();
+	var income = $('#income').val();
+	var commission = $('#commission').val();
+	var ctype = $('#ctype').val();
+	var dealno = $('#dealno').val();
+	var paymethod = $('#paymethod').val();
+	if(phonenum =='' || salephone =='' ||income ==''||commission==''||ctype==''||dealno==''||paymethod==''){
+popWin.showWin("400","230","提示信息","请将不填信息填写完整");
+return;
+	}
+	$('#subForm').submit();
+});
+
+var uploader = new plupload.Uploader({
+	runtimes : 'html5,flash,silverlight,html4',
+	browse_button : 'addportrait', // you can pass in id...
+	url : "<{:U('File/uploadImg')}>",
+	flash_swf_url : "__ROOT__/js/upload/Moxie.swf",
+	silverlight_xap_url : "__ROOT__/js/upload/Moxie.xap",
+	filters : {
+		max_file_size : '2mb',
+		mime_types: [
+			{title : "Image files", extensions : "jpg,gif,png,jpeg"},
+		]
+	},
+
+	init: {
+		PostInit: function() {
+			
+		},
+		FilesAdded: function(up, files) {
+			plupload.each(files, function(file) {
+				uploader.start();
+			});
+		},
+		UploadProgress: function(up, file) {
+			if(file.percent > 0 && file.percent < 100){
+				$("#proce").show();
+				var height = file.percent * 602 /100;
+				$("#proce").find('p').css("width", height );
+			}
+			if(file.percent == 100){
+				$("#proce").hide();
+			}
+			
+		},
+		 FileUploaded:function(m,file,data){
+			
+		 	var obj = eval("("+data.response+")");
+		 	if(obj.status){
+		 		var html = '<div class="portrait"><img src="'+obj.filename+'"/><span class="imgclose">x</span><input type="hidden" name="info[remarks2][]" value="'+obj.realpath+'"></div>';
+		 		$("#remaimgs").append(html);
+		 	}
+
+		    },
+		Error: function(up, err) {	
+		}
+	}
+});
+uploader.init();
+$('#remaimgs').on('click','.imgclose',function(){
+	$(this).parent().remove();
+});
+</script>
+<include file="Public/footer"/>

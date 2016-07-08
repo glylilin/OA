@@ -1,0 +1,60 @@
+<include file="Public/header"/>
+<!-- MainForm -->
+<div id="MainForm">
+<div class="form_boxA">
+<h2><a href="<{:U('User/add')}>"><span class="addAdminUser">添加管理员</span></a>管理员列表</h2>
+<table cellpadding="0" cellspacing="0">
+<tr>
+<th>序号</th>
+<th>账号</th>
+<th>昵称</th>
+<th>分组</th>
+<th>添加时间</th>
+<th>状态</th>
+<th>操作</th>
+</tr>
+<foreach name="adminInfo" item='vo' key='k'>
+<if condition="($k % 2) eq 0">
+<tr class="bgcC">
+<td><{$vo.adminid}></td>
+<td><{$vo.adminame}></td>
+<td><{$vo.nickname}></td>
+<td><{$vo.groupname}></td>
+<td><{$vo.dateline|date="Y-m-d H:i",###}></td>
+
+<td><if condition="$vo['status']"><span style="color:#000;">启用</span><else/><span style="color:red;">禁用</span></if></td>
+<td><a href="<{:U('User/update',array('adminid'=>$vo['adminid']))}>">修改</a> | <a href="javascript:if(confirm('管理员删除后将无法恢复,你确定要删除?')) location.href='<{:U('User/dadmin',array('adminid'=>$vo['adminid']))}>’">删除</a></td>
+</tr>
+<else/>
+<tr class="bgcD">
+<td><{$vo.adminid}></td>
+<td><{$vo.adminame}></td>
+<td><{$vo.nickname}></td>
+<td><{$vo.groupname}></td>
+<td><{$vo.dateline|date="Y-m-d H:i",###}></td>
+
+<td><if condition="$vo['status']"><span style="color:#000;">启用</span><else/><span style="color:red;">禁用</span></if></td>
+<td><a href="<{:U('User/update',array('adminid'=>$vo['adminid']))}>">修改</a> | <a href="javascript:if(confirm('管理员删除后将无法恢复,你确定要删除?')) location.href='<{:U('User/dadmin',array('adminid'=>$vo['adminid']))}>'">删除</a></td>
+</tr>
+</if>
+</foreach>
+</table>
+
+<!-- PageNum -->
+<ul id="PageNum">
+<li><a href="<{:U('User/index',array('p'=>$pageInfo['first']))}>">首页</a></li>
+<li><a <if condition="$pageInfo['pre'] eq 'nopre'">href="javascript:;"<else/>href="<{:U('User/index',array('p'=>$pageInfo['pre']))}>"</if>>上一页</a></li>
+<foreach name='pageInfo.list' item='vo'>
+<if condition="$vo eq '…'">
+<li><a href="javascript:;"><{$vo}></a></li>
+<else/>
+<li><a href="<{:U('User/index',array('p'=>$vo))}>"><{$vo}></a></li>
+</if>
+</foreach>
+<li><a <if condition="$pageInfo['next'] eq 'nonext'">href="javascript:;"<else/> href="<{:U('User/index',array('p'=>$pageInfo['next']))}>"</if>>下一页</a></li>
+<li><a href="<{:U('User/index',array('p'=>$pageInfo['end']))}>">尾页</a></li>
+</ul>
+<!-- /PageNum -->
+</div>
+</div>
+<include file="Public/footer"/>

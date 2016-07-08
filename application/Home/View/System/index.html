@@ -1,0 +1,73 @@
+<include file="Public/header"/>
+
+<!-- Contents -->
+<div id="Contents">
+
+<!-- BtmMain -->
+<div style="height:38px;margin-bottom:10px;">
+	<if condition="$authJudge['System']['addAuth']">
+<div class="btn_box floatL mag_r20">
+<a href="<{:U('System/addAuth')}>"><input type="button" value="权限录入" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"></a>
+</div>
+</if>
+<!-- /txtbox -->
+<if condition="$authJudge['System']['addGroup']">
+	<div class="btn_box floatR mag_l20"><a href="<{:U('System/addGroup')}>"><input type="button" value="创建分组" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"></a>
+	</div>
+	<!-- /btn_box -->
+	</div>
+</if>
+<!-- /BtmMain -->
+<!-- MainForm -->
+<div id="MainForm">
+
+<div class="form_boxB">
+
+<table cellpadding="0" cellspacing="0">
+
+<tr>
+<th width="150px;">分组编号</th>
+<th width="300px;">分组名称</th>
+<th>权限</th>
+<th width="150px;">成员数</th>
+<th width="360px;">操作</th>
+</tr>
+<foreach name="data" item="id">
+
+<tr>
+
+<td><{$id.groupid}></td>
+<td><{$id.groupname}></td>
+<td><{$id.groupauth}></td>
+<td><{$id.children}></td>
+<td class="last">
+	<if condition="($id['groupid'] eq 1 )">
+
+		<if condition="$adminname eq 'developer'">
+			<a href="<{:U('System/fillAuth',array('groupid'=>$id['groupid']))}>">分组授权</a> |
+		</if>
+	<elseif condition="$authJudge['System']['fillAuth']"/>
+	
+		<a href="<{:U('System/fillAuth',array('groupid'=>$id['groupid']))}>">分组授权</a> |
+
+	</if>
+	<if condition="$authJudge['System']['groupingMember']">
+		<a href="<{:U('System/groupingMember',array('groupid'=>$id['groupid']))}>">分组成员</a> |
+	</if>
+	<if condition="$authJudge['System']['delGrouping']">
+		<a href="javascript:if(confirm('分组删除后将无法恢复,你确定要删除?')) location.href='<{:U('System/delGrouping',array('groupid'=>$id['groupid']))}>'" >删除分组</a>
+	</if>
+</td>
+</tr>
+</foreach>
+
+
+</table>
+
+</div>
+</div>
+<!-- /MainForm -->
+</div>
+<!-- /Contents -->
+
+<include file='Public/footer'/>

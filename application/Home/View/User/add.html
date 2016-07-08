@@ -1,0 +1,132 @@
+<include file="Public/header"/>
+<!-- MainForm -->
+<div id="MainForm">
+<script type="text/javascript">
+$(function(){
+$(".select").each(function(){
+var s=$(this);
+var z=parseInt(s.css("z-index"));
+var dt=$(this).children("dt");
+var dd=$(this).children("dd");
+var _show=function(){dd.slideDown(200);dt.addClass("cur");s.css("z-index",z+1);};
+var _hide=function(){dd.slideUp(200);dt.removeClass("cur");s.css("z-index",z);};
+dt.click(function(){dd.is(":hidden")?_show():_hide();});
+dd.find("a").click(function(){dt.html($(this).html());_hide();var groupid = $(this).attr('data');if(groupid > 0){$('#groupid').val(groupid);}});
+$("body").click(function(i){ !$(i.target).parents(".select").first().is(s) ? _hide():"";});})})
+</script>
+<div style="width:560px;margin:0px auto;padding-top:10px;">
+<div class="form_boxC">
+<form method="post" id="subFrom">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<th width="130">分组 <span class="f_cB">*</span></th>
+<td><!-- selectbox -->
+<div class="selectbox" style="width:400px;">
+<dl class="select">
+<dt>请选择...</dt>
+<dd><ul>
+<foreach name="groupList" item="vo">
+<li><a href="#" data="<{$vo.groupid}>"><{$vo.groupname}></a></li>
+</foreach>
+</ul></dd></dl>
+</div>
+<!-- /selectbox --></td>
+</tr>
+<tr>
+<th>账号</th>
+<td><div class="txtbox floatL"><input name="info[adminame]" id="adminame" type="text" size="50" value='' required autofocus ></div></td>
+</tr>
+<tr>
+<th>昵称</th>
+<td><div class="txtbox floatL"><input name="info[nickname]" id="nickname" type="text" size="15" value='' required autofocus ></div></td>
+</tr>
+<tr>
+<th>密码</th>
+<td><div class="txtbox floatL"><input name="info[password]" id="password" type="text" size="30" value='' required autofocus ></div></td>
+</tr>
+<tr>
+<th>状态</th>
+<td><input type="radio" name='info[status]' value="0"> 禁用&nbsp;&nbsp;&nbsp;
+<input type="radio" name='info[status]' value="1" checked="checked"> 开启</td>
+</tr>
+</table>
+</div>
+</div>
+<div style="width:530px;height:36px;margin:0px auto;">
+<input type="hidden" name="info[groupid]" id="groupid" value="0">
+<div class="btn_boxB floatR mag_l20"><input type="button" value="取消" onmousemove="this.className='input_move'" id="restBtn" onmouseout="this.className='input_out'"></div>
+<div class="btn_box floatR"><input type="button" value="提交" onmousemove="this.className='input_move'" id="submitBtn" onmouseout="this.className='input_out'"></div>
+</div>
+</form>
+</div>
+<script type="text/javascript" src="__JS__/popwin.js"></script>
+<script>
+$(document).ready(function() {
+	$('#adminame').blur(function(){
+		var adminame = $(this).val();
+		if(adminame == ''){
+			return;
+		}
+		var url="<{:U('User/checkajax')}>";
+		$.ajax({
+			url:url,
+			type:"POST",
+			data:{field:"adminame",value:adminame},
+			dataType:"JOSN",
+			success:function(mes){
+				if(mes.status){
+					popWin.showWin("400","230","提示信息","该账号已被使用");
+					$('#adminame').val('');
+					return;
+				}
+			}
+		});
+	});
+
+$('#nickname').blur(function(){
+		var nickname = $(this).val();
+		if(nickname == ''){
+			return;
+		}
+		var url="<{:U('User/checkajax')}>";
+		$.ajax({
+			url:url,
+			type:"POST",
+			data:{field:"nickname",value:nickname},
+			dataType:"JOSN",
+			success:function(mes){
+				if(mes.status){
+					popWin.showWin("400","230","提示信息","该昵称已被使用");
+					$('#nickname').val('');
+					return;
+				}
+			}
+		});
+	});
+
+$("#submitBtn").click(function(){
+	var groupid = $('#groupid').val();
+	var adminame = $('#adminame').val();
+	var nickname = $('#nickname').val();
+	var password = $('#password').val();
+	if(groupid == 0){
+		popWin.showWin("400","230","提示信息","分类必须选择");
+		return;
+	}
+	if(adminame == '' || nickname =='' || password == ''){
+		popWin.showWin("400","230","提示信息","请将信息填写完整");
+		return;
+	}
+	$('#subFrom').submit();
+});
+});
+$('#restBtn').click(function(){
+	$('#groupid').val(0);
+	$('#adminame').val('');
+	$('#nickname').val('');
+	$('#password').val('');
+	$('.select').children('dt').html('请选择...');
+});
+</script>
+<!-- /MainForm -->
+<include file="Public/footer"/>

@@ -1,0 +1,101 @@
+<include file="Public/header"/>
+<!-- MainForm -->
+<style type="text/css">
+#PageNum li a.act{background-color: #9b9b9b;color: #fff;}
+</style>
+<div class="txtbox floatL mag_r20" style="margin-left:20px;margin-top:8px;">
+<span class="sttl">电话号码：</span>
+<input name="sph" type="text" size="20" id="sph"  value="">
+</div>
+<div id="MainForm">
+<div class="form_boxA">
+<h2>会员列表</h2>
+
+<table cellpadding="0" cellspacing="0">
+<tr>
+<th>序号</th>
+<th>姓名</th>
+<th>微信名</th>
+<th>微信号</th>
+<th>电话号码</th>
+<th>添加时间</th>
+<th>是否欠款</th>
+<th>欠款金额</th>
+<th>操作</th>
+</tr>
+<foreach name="data" item='vo' key='k'>
+<if condition="($k % 2) eq 0">
+<tr class="bgcC">
+<td><{$vo.uid}></td>
+<td><{$vo.username}></td>
+<td><{$vo.weiname}></td>
+<td><{$vo.weino}></td>
+<td><{$vo.phonenum}></td>
+<td><{$vo.dateline|date="Y-m-d H:i",###}></td>
+
+<td><if condition="$vo['is_arrears']"><span style="color:red;">是</span><else/><span style="color:#000;">否</span></if></td>
+<td><if condition="$vo['arrprice']"><span style="color:red;"><{$vo.arrprice|number_format=2}></span><else/><span style="color:#000;">0</span></if></td>
+<td>
+<if condition="$authJudge['Member']['ordersByUser']">
+	<a href="<{:U('Member/ordersByUser',array('uid'=>$vo['uid']))}>">查看详情</a> |
+</if>
+<if condition="$authJudge['Member']['duser']">
+ 	<a href="javascript:if(confirm('客户删除后将无法恢复,你确定要删除?')) location.href='<{:U('Member/duser',array('uid'=>$vo['uid']))}>'">删除</a>
+</if>
+</td>
+</tr>
+<else/>
+<tr class="bgcD">
+<td><{$vo.uid}></td>
+<td><{$vo.username}></td>
+<td><{$vo.weiname}></td>
+<td><{$vo.weino}></td>
+<td><{$vo.phonenum}></td>
+<td><{$vo.dateline|date="Y-m-d H:i",###}></td>
+
+<td><if condition="$vo['is_arrears']"><span style="color:red;">是</span><else/><span style="color:#000;">否</span></if></td>
+<td><if condition="$vo['arrprice']"><span style="color:red;"><{$vo.arrprice|number_format=2}></span><else/><span style="color:#000;">0</span></if></td>
+<td>
+<if condition="$authJudge['Member']['ordersByUser']">
+	<a href="<{:U('Member/ordersByUser',array('uid'=>$vo['uid']))}>">查看详情</a> |
+</if>
+<if condition="$authJudge['Member']['duser']">
+	 <a href="javascript:if(confirm('客户删除后将无法恢复,你确定要删除?')) location.href='<{:U('Member/duser',array('uid'=>$vo['uid']))}>'">删除</a>
+</if>
+</td>
+</tr>
+</if>
+</foreach>
+</table>
+
+<!-- PageNum -->
+<ul id="PageNum">
+<li><a href="<{:U('Member/index',array('phonenum'=>$phonenum,'p'=>$pageInfo['first']))}>">首页</a></li>
+<li><a <if condition="$pageInfo['pre'] eq 'nopre'">href="javascript:;"<else/>href="<{:U('Member/index',array('phonenum'=>$phonenum,'p'=>$pageInfo['pre']))}>"</if>>上一页</a></li>
+<foreach name='pageInfo.list' item='vo'>
+<if condition="$vo eq '…'">
+<li><a href="javascript:;"><{$vo}></a></li>
+<else/>
+<li><a <if condition="$vo eq $p"> class="act" href="javascript:;"<else/>href="<{:U('Member/index',array('phonenum'=>$phonenum,'p'=>$vo))}>" </if>><{$vo}></a></li>
+</if>
+</foreach>
+<li><a <if condition="$pageInfo['next'] eq 'nonext'">href="javascript:;"<else/> href="<{:U('Member/index',array('phonenum'=>$phonenum,'p'=>$pageInfo['next']))}>"</if>>下一页</a></li>
+<li><a href="<{:U('Member/index',array('phonenum'=>$phonenum,'p'=>$pageInfo['end']))}>">尾页</a></li>
+</ul>
+<!-- /PageNum -->
+</div>
+</div>
+<script type="text/javascript">
+$('#sph').blur(function(){
+	var phonenum = $(this).val();
+	var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(14[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+	if(!myreg.test(phonenum)){
+		$(this).attr('placeholder',"电话号码错误");
+		$(this).val('');
+		return;
+	}
+	
+	window.location.href="<{:U('Member/index')}>&phonenum="+phonenum;
+});
+</script>
+<include file="Public/footer"/>

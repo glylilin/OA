@@ -1,0 +1,91 @@
+<include file="Public/header"/>
+<script type="text/javascript" src="__JS__/wdatePicker/WdatePicker.js"></script>
+<!-- Contents -->
+<div id="Contents">
+
+<!-- /BtmMain -->
+<!-- MainForm -->
+<div id="MainForm">
+
+<div class="form_boxB">
+<h2><{$data.username}>详情</h2>
+<table cellpadding="0" cellspacing="0">
+<tr>
+<th>姓名/电话</th>
+<th>时间</th>
+<th>微信名</th>
+<th>微信号</th>
+<th>总额</th>
+<th>收入</th>
+<th>提成</th>
+<th>类型</th>
+<th>线下时间</th>
+<th>欠款</th>
+<th>支付</th>
+<th>导师</th>
+<th>备注</th>
+<th>经办人</th>
+<th>渠道</th>
+<th>学员</th>
+<th>书</th>
+<th>补余款</th>
+<th>填写人</th>
+</tr>
+
+<foreach name="data.list" item='id' key='k'>
+<if condition="$k eq 0">
+<tr>
+<td rowspan="<{$data.colspan}>"><{$data.username}><br/><{$data.phonenum}></td>
+<td><{$id.ordertime|date="Y年m月d日",###}></td>
+<td><{$id.weiname}></td>
+<td><{$id.weino}></td>
+
+<td class="f_cA"><{$id.saleprice}></td>
+<td class="f_cA"><{$id.income}></td>
+<td class="f_cA"><{$id.commission}></td>
+<td><{$id.ctype}></td>
+<td><if condition="$id['linetime'] neq 0"><{$id.linetime|date="Y年m月d日",###}></if></td>
+<td><{$id.arrears}></td>
+<td><{$id.paymethod}></td>
+<td><{$id.zteacher}></td>
+<td><{$id.remarks}></td>
+<td  class="f_cA"><{$id.dealno}></td>
+<td><{$id.channels}></td>
+<td><if condition="$id['is_student']">是<else/>否</if></td>
+<td><if condition="$id['is_book']">是<else/>否</if></td>
+<td><if condition="$id['is_balance']">是<else/>否</if></td>
+<td class="f_cA"><{$id.filledname}></td>
+</tr>
+<else/>
+<tr>
+<td><{$id.ordertime|date="Y年m月d日",###}></td>
+<td><{$id.weiname}></td>
+<td><{$id.weino}></td>
+<td class="f_cA"><{$id.saleprice}></td>
+<td class="f_cA"><{$id.income}></td>
+<td class="f_cA"><{$id.commission}></td>
+<td><{$id.ctype}></td>
+<td><if condition="$id['linetime'] neq 0"><{$id.linetime|date="Y年m月d日",###}></if></td>
+<td><{$id.arrears}></td>
+<td><{$id.paymethod}></td>
+<td><{$id.zteacher}></td>
+<td><{$id.remarks}></td>
+<td class="f_cA"><{$id.dealno}></td>
+<td><{$id.channels}></td>
+<td><if condition="$id['is_student']">是<else/>否</if></td>
+<td><if condition="$id['is_book']">是<else/>否</if></td>
+<td><if condition="$id['is_balance']">是<else/>否</if></td>
+<td class="f_cA"><{$id.filledname}></td>
+
+</tr>
+</if>
+</foreach>
+
+</table>
+<!-- /PageNum -->
+</div>
+</div>
+<!-- /MainForm -->
+</div>
+
+<include file='Public/footer'/>

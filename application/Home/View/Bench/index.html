@@ -1,0 +1,165 @@
+<include file="Public/header"/>
+<script type="text/javascript" src="__JS__/wdatePicker/WdatePicker.js"></script>
+<!-- Contents -->
+<div id="Contents">
+<script type="text/javascript">
+$(function(){
+$(".select").each(function(){
+var s=$(this);
+var z=parseInt(s.css("z-index"));
+var dt=$(this).children("dt");
+var dd=$(this).children("dd");
+var _show=function(){dd.slideDown(200);dt.addClass("cur");s.css("z-index",z+1);};
+var _hide=function(){dd.slideUp(200);dt.removeClass("cur");s.css("z-index",z);};
+dt.click(function(){dd.is(":hidden")?_show():_hide();});
+dd.find("a").click(function(){dt.html($(this).html());_hide();});
+$("body").click(function(i){ !$(i.target).parents(".select").first().is(s) ? _hide():"";});})})
+</script>
+<style type="text/css">
+#PageNum li a.act{background-color: #9b9b9b;color: #fff;}
+</style>
+<!-- BtmMain -->
+<div style="height:38px;margin-bottom:10px;">
+<div class="txtbox floatL mag_r20">
+<span class="sttl">订单时间：</span>
+<input name="starttime" type="text" size="16" class="Wdate" id="changeTime" onclick="WdatePicker({dateFmt:'yyyy-MM'})" onchange="changeTime(this);" value="<{$nowMonth}>">
+</div>
+<!-- /txtbox -->
+<if condition="$authJudge['Bench']['add']">
+<div class="btn_box floatR mag_l20"><a href="<{:U('Bench/add')}>"><input type="button" value="信息录入" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"></a>
+</div>
+</if>
+<!-- /btn_box -->
+</div>
+<!-- /BtmMain -->
+<!-- MainForm -->
+<div id="MainForm">
+
+<div class="form_boxB">
+<h2><{$nowMonth}>月收入列表</h2>
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td colspan="21" class="info_boxA">日期：<{$nowMonth}>　　销售总额：<{$totalInfo.sp|number_format=2}>元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收入总额：<{$totalInfo.inc|number_format=2}>元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提成总额：<{$totalInfo.cis|number_format=2}>元</td>
+</tr>
+<tr>
+<th>时间</th>
+<th>姓名</th>
+<th>微信名</th>
+<th>微信号</th>
+<th>电话</th>
+<th>总额</th>
+<th>收入</th>
+<th>提成</th>
+<th>类型</th>
+<th>线下时间</th>
+<th>欠款</th>
+<th>支付</th>
+<th>导师</th>
+<th>备注</th>
+<th>经办人</th>
+<th>渠道</th>
+<th>学员</th>
+<th>书</th>
+<th>补余款</th>
+<th>填写人</th>
+<th>操作</th>
+</tr>
+<foreach name="orderInfo" item="vo">
+	<foreach name="vo.list" item='id' key='k'>
+		<if condition="$k eq 0">
+<tr>
+<td rowspan="<{$id.colspan}>"><{$key}></td>
+<td><{$id.username}></td>
+<td><{$id.weiname}></td>
+<td><{$id.weino}></td>
+<td><{$id.phonenum}></td>
+<td class="f_cA"><{$id.saleprice}></td>
+<td class="f_cA"><{$id.income}></td>
+<td class="f_cA"><{$id.commission}></td>
+<td><{$id.ctype}></td>
+<td><if condition="$id['linetime'] neq 0"><{$id.linetime|date="Y年m月d日",###}></if></td>
+<td><{$id.arrears}></td>
+<td><{$id.paymethod}></td>
+<td><{$id.zteacher}></td>
+<td><{$id.remarks}></td>
+<td  class="f_cA"><{$id.dealno}></td>
+<td><{$id.channels}></td>
+<td><if condition="$id['is_student']">是<else/>否</if></td>
+<td><if condition="$id['is_book']">是<else/>否</if></td>
+<td><if condition="$id['is_balance']">是<else/>否</if></td>
+<td class="f_cA"><{$id.filledname}></td>
+<td class="last">
+	<if condition="$authJudge['Bench']['update']">
+	<a href="<{:U('Bench/update',array('orderid'=>$id['orderid']))}>">修改</a> | 
+	</if>
+	<if condition="$authJudge['Bench']['dorder']">
+<a href="javascript:if(confirm('订单删除后将无法恢复,你确定要删除?')) location.href='<{:U('Bench/dorder',array('orderid'=>$id['orderid']))}>'" >删除</a>
+</if>
+</td>
+</tr>
+<else/>
+<tr>
+
+<td><{$id.username}></td>
+<td><{$id.weiname}></td>
+<td><{$id.weino}></td>
+<td><{$id.phonenum}></td>
+<td class="f_cA"><{$id.saleprice}></td>
+<td class="f_cA"><{$id.income}></td>
+<td class="f_cA"><{$id.commission}></td>
+<td><{$id.ctype}></td>
+<td><if condition="$id['linetime'] neq 0"><{$id.linetime|date="Y年m月d日",###}></if></td>
+<td><{$id.arrears}></td>
+<td><{$id.paymethod}></td>
+<td><{$id.zteacher}></td>
+<td><{$id.remarks}></td>
+<td class="f_cA"><{$id.dealno}></td>
+<td><{$id.channels}></td>
+<td><if condition="$id['is_student']">是<else/>否</if></td>
+<td><if condition="$id['is_book']">是<else/>否</if></td>
+<td><if condition="$id['is_balance']">是<else/>否</if></td>
+<td class="f_cA"><{$id.filledname}></td>
+<td class="last">
+	<if condition="$authJudge['Bench']['update']">
+	<a href="<{:U('Bench/update',array('orderid'=>$id['orderid']))}>">修改</a> |
+	</if>
+	<if condition="$authJudge['Bench']['dorder']">
+<a href="javascript:if(confirm('订单删除后将无法恢复,你确定要删除?')) location.href='<{:U('Bench/dorder',array('orderid'=>$id['orderid']))}>'" >删除</a>
+</if>
+</td>
+</tr>
+</if>
+</foreach>
+</foreach>
+
+
+</table>
+<!-- PageNum -->
+<ul id="PageNum">
+<li><a href="<{:U('Bench/index',array('p'=>$pageInfo['first'],'starttime'=>$nowMonth))}>">首页</a></li>
+<li><a <if condition="$pageInfo['pre'] eq 'nopre'">href="javascript:;"<else/>href="<{:U('Bench/index',array('p'=>$pageInfo['pre'],'starttime'=>$nowMonth))}>"</if>>上一页</a></li>
+<foreach name='pageInfo.list' item='vo'>
+<if condition="$vo eq '…'">
+<li><a href="javascript:;"><{$vo}></a></li>
+<else/>
+<li><a <if condition="$vo eq $p">class="act" href="javascript:;"<else/>href="<{:U('Bench/index',array('p'=>$vo,'starttime'=>$nowMonth))}>"</if>><{$vo}></a></li>
+</if>
+</foreach>
+<li><a <if condition="$pageInfo['next'] eq 'nonext'">href="javascript:;"<else/> href="<{:U('Bench/index',array('p'=>$pageInfo['next'],'starttime'=>$nowMonth))}>"</if>>下一页</a></li>
+<li><a href="<{:U('Bench/index',array('p'=>$pageInfo['end'],'starttime'=>$nowMonth))}>">尾页</a></li>
+</ul>
+<!-- /PageNum -->
+</div>
+</div>
+<!-- /MainForm -->
+
+</div>
+<!-- /Contents -->
+<script type="text/javascript">
+function changeTime(obj){
+	var time = $(obj).val();
+	window.location.href="<{:U('Bench/index')}>&starttime="+time;
+}
+</script>
+
+<include file='Public/footer'/>

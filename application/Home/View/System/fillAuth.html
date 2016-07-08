@@ -1,0 +1,71 @@
+<include file="Public/header"/>
+<script type="text/javascript" src="__JS__/wdatePicker/WdatePicker.js"></script>
+<style>
+.input{display: block;width: 100%;margin-top: 0px 10px;}
+#auth_list{margin:0px auto;min-height:100px;background:#fff;margin-bottom: 10px;margin-top: 10px;}
+#auth_list h2{text-indent: 2em;height: 30px;line-height: 30px;color:green;}
+.auth_dl{float:left; margin: 20px 50px;font-size: 18px;border: 1px dashed #D8BFD8;padding:6px 10px;background:#E6E6FA; }
+.auth_detail{text-indent: 2em;height: 28px;line-height: 28px;}
+.selectAuth{margin-right: 6px;}
+#subBtn{margin:0px auto;display: block;width: 80px;}
+.clear{zoom:1;}
+.clear:after{
+	display: block;content: "";clear: both;
+}
+</style>
+<div id="Popup">
+
+<form method="POST">
+<div style="width:80%;margin:0px auto;">
+
+<!-- SubPopup -->
+<div id="auth_list" class='clear'>
+	<h2><{$groupInfo.groupname}>授权</h2>
+	<foreach name="auth_list" item='vo'>
+	<dl class="auth_dl">
+		<dt>
+			<input type="checkbox" name="info[auth][]" value="<{$vo.aid}>" <if condition="$groupInfo['groupauth'][$vo['controll_name']][$vo['action_name']]"> checked="checked" </if> class="selectAuth" data="1"/><{$vo.auth_name}>
+		</dt>
+		<foreach name="vo.list" item='id'>
+		<if condition="$vo['action_name'] neq $id['action_name']">
+		<dd class="auth_detail"><input type="checkbox" name="info[auth][]" value="<{$id.aid}>" <if condition="$groupInfo['groupauth'][$id['controll_name']][$id['action_name']]"> checked="checked" </if> class="selectAuth" data='2'/><{$id.auth_name}></dd>
+		</if>
+		</foreach>
+		
+	</dl>
+	</foreach>
+</div>
+<div id="SubPopup">
+<div class="form_boxC">
+<div class="btn_box">
+	<input type='hidden' name="groupid" value="<{$groupInfo.groupid}>"/>
+	<input name="" type="submit" value="提交" id="subBtn" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'">
+</div>
+</div>
+</div>
+</div>
+</form>
+</div>
+
+<script type="text/javascript" src="__JS__/popwin.js"></script>
+<script type="text/javascript">
+$('.selectAuth').click(function(){
+	var cflag = $(this).prop("checked");
+	var flag = $(this).attr('data');
+	console.log(cflag);
+	switch(flag){
+		case "1":
+		if(cflag == false){
+$(this).parents(".auth_dl").find('.auth_detail').find('.selectAuth').prop('checked',cflag);
+		}
+		
+		break;
+		case "2":
+			if(cflag == true){
+				$(this).parents(".auth_dl").find('dt').find('.selectAuth').prop('checked',cflag);
+			}
+		break;
+	}
+});
+</script>
+<include file="Public/footer"/>

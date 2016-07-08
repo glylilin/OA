@@ -1,0 +1,70 @@
+<include file="Public/header"/>
+<script type="text/javascript" src="__JS__/wdatePicker/WdatePicker.js"></script>
+<style>
+.input{display: block;width: 100%;margin-top: 0px 10px;}
+#auth_list{width:80%;margin:0px auto;min-height:100px;background:#fff;margin-bottom: 10px;}
+.auth_dl{float:left; margin: 20px 50px;font-size: 18px;border: 1px dashed #D8BFD8;padding:6px 10px;background:#E6E6FA; }
+.auth_detail{text-indent: 2em;height: 28px;line-height: 28px;}
+.clear{zoom:1;}
+.clear:after{
+	display: block;content: "";clear: both;
+}
+</style>
+<div id="Popup">
+<div style="width:80%;margin:0px auto;">
+<!-- SubPopup -->
+<div id="SubPopup">
+<div class="form_boxC">
+<p>"<span class="f_cB">*</span>"号为必填项</p>
+<form method='post' id='subForm'>
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<th>权限名称<span class="f_cB">*</span></th>
+<td><div class="txtbox floatL" ><input name="info[auth_name]" id="auth_name" type="text" size="36" class="input" value=""></div></td>
+<th>控制器名称<span class="f_cB">*</span></th>
+<td><div class="txtbox floatL" ><input name="info[controll_name]" id="controll_name" type="text" size="36" class="input" value=""></div></td>
+<th>方法名称<span class="f_cB">*</span></th>
+<td><div class="txtbox floatL"><input name="info[action_name]" id="action_name" type="text" size="36" class="input" value=""></div></td>
+<td>
+<div class="btn_boxB floatR mag_l20"><input name="" type="button" value="取消" id="resetSub" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"></div>
+<div class="btn_box floatR"><input name="" type="button" value="提交" id="subBtn" onmousemove="this.className='input_move'" onmouseout="this.className='input_out'"></div>
+</td>
+</tr>
+</table>
+</form>
+
+</div>
+</div>
+</div>
+<div id="auth_list" class='clear'>
+	<foreach name="data" item='vo'>
+	<dl class="auth_dl">
+		<dt><{$vo.auth_name}></dt>
+		<foreach name="vo.list" item='id'>
+		<if condition="$vo['action_name'] neq $id['action_name']">
+		<dd class="auth_detail"><{$id.auth_name}></dd>
+		</if>
+		</foreach>
+		
+	</dl>
+	</foreach>
+</div>
+</div>
+
+<script type="text/javascript" src="__JS__/popwin.js"></script>
+<script type="text/javascript">
+$("#resetSub").click(function(){
+	$('.input').val("");
+});
+$('#subBtn').click(function(){
+	var auth_name = $('#auth_name').val();
+	var controll_name = $('#controll_name').val();
+	var action_name = $('#action_name').val();
+	if(auth_name =='' || controll_name =='' ||action_name ==''){
+popWin.showWin("400","230","提示信息","请将不填信息填写完整");
+return;
+	}
+	$('#subForm').submit();
+});
+</script>
+<include file="Public/footer"/>
